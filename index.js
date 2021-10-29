@@ -24,6 +24,7 @@ async function run() {
 
         const database = client.db("travelX");
         const packageCollection = database.collection("packages");
+        const orderCollection = database.collection("orders");
 
         // GET API 
         app.get('/packages', async (req, res) => {
@@ -31,6 +32,15 @@ async function run() {
             const packages = await cursor.toArray();
             res.send(packages);
         })
+
+        // POST API 
+        app.post('/orders', async (req, res) => {
+            const newOrder = req.body;
+
+            const result = await orderCollection.insertOne(newOrder);
+            console.log('added new user: ', result);
+            res.send(result);
+        });
     }
     finally {
         // await client.close();
