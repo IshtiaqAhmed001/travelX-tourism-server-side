@@ -34,13 +34,19 @@ async function run() {
         })
 
         // POST API 
-        app.post('/orders', async (req, res) => {
+        app.post('/bookings', async (req, res) => {
             const newOrder = req.body;
-
             const result = await orderCollection.insertOne(newOrder);
             console.log('added new user: ', result);
             res.send(result);
         });
+
+        // GET API to load orders
+        app.get('/bookings', async (req, res) => {
+            const cursor = orderCollection.find({});
+            const orders = await cursor.toArray();
+            res.send(orders);
+        })
     }
     finally {
         // await client.close();
