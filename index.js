@@ -55,6 +55,21 @@ async function run() {
             res.send(result);
         });
 
+        //PUT API to Update order status
+        app.put('/manageallorders/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedOrder = req.body;
+            const filter = { _id: ObjectId(id) };
+
+            const updateDoc = {
+                $set: {
+                    status: updatedOrder.status
+                },
+            };
+            const result = await orderCollection.updateOne(filter, updateDoc);
+            res.json(result);
+        })
+
         // DELETE API to delete/cancel booking
         app.delete('/bookings/:id', async (req, res) => {
             const id = req.params.id;
