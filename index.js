@@ -26,20 +26,12 @@ async function run() {
         const packageCollection = database.collection("packages");
         const orderCollection = database.collection("orders");
 
-        // GET API 
+        // GET API to load deals/packages
         app.get('/packages', async (req, res) => {
             const cursor = packageCollection.find({});
             const packages = await cursor.toArray();
             res.send(packages);
         })
-
-        // POST API 
-        app.post('/bookings', async (req, res) => {
-            const newOrder = req.body;
-            const result = await orderCollection.insertOne(newOrder);
-            console.log('added new user: ', result);
-            res.send(result);
-        });
 
         // GET API to load orders
         app.get('/bookings', async (req, res) => {
@@ -47,6 +39,22 @@ async function run() {
             const orders = await cursor.toArray();
             res.send(orders);
         })
+
+        // POST API to place order
+        app.post('/bookings', async (req, res) => {
+            const newOrder = req.body;
+            const result = await orderCollection.insertOne(newOrder);
+            res.send(result);
+        });
+
+        // POST API to add new deal 
+        app.post('/packages', async (req, res) => {
+            const newPackage = req.body;
+            const result = await packageCollection.insertOne(newPackage);
+            // console.log(result);
+            res.send(result);
+        })
+
     }
     finally {
         // await client.close();
