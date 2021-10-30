@@ -25,12 +25,19 @@ async function run() {
         const database = client.db("travelX");
         const packageCollection = database.collection("packages");
         const orderCollection = database.collection("orders");
+        const destinationCollection = database.collection("destinations");
 
         // GET API to load deals/packages
         app.get('/packages', async (req, res) => {
             const cursor = packageCollection.find({});
             const packages = await cursor.toArray();
             res.send(packages);
+        })
+        // GET API to load destinations
+        app.get('/destinations', async (req, res) => {
+            const cursor = destinationCollection.find({});
+            const destinations = await cursor.toArray();
+            res.send(destinations);
         })
 
         // GET API to load orders
